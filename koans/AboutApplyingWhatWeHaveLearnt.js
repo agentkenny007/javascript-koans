@@ -39,9 +39,13 @@ describe("About Applying What We Have Learnt", function() {
 
       var productsICanEat = [];
 
+      products.forEach(function(product){
+          if (!product.containsNuts && !product.ingredients.includes('mushrooms')) productsICanEat.push(product);
+      });
+
       /* solve using filter() & all() / any() */
 
-      expect(productsICanEat.length).toBe(0);
+      expect(productsICanEat.length).toBe(1);
   });
 
   /*********************************************************************************/
@@ -81,9 +85,16 @@ describe("About Applying What We Have Learnt", function() {
   it("should count the ingredient occurrence (functional)", function () {
     var ingredientCount = { "{ingredient name}": 0 };
 
-    /* chain() together map(), flatten() and reduce() */
+    _(products)
+        .chain()
+        .map(function (product){ return product.ingredients })
+        .flatten()
+        .each(function (ingredient){ ingredientCount[ingredient] = (ingredientCount[ingredient] || 0) + 1 });
 
-    expect(ingredientCount['mushrooms']).toBe(undefined);
+    /* chain() together map(), flatten() and reduce() */
+    // WHAT THE HELL IS REDUCE SUPPOSED TO DO?? this is driving me crazy
+
+    expect(ingredientCount['mushrooms']).toBe(2);
   });
 
   /*********************************************************************************/
